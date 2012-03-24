@@ -1,7 +1,0 @@
-d:\documents\visual studio 2010\Projects\BioLogger\BioLogger\bin\Debug\BioLogger.exe
-d:\documents\visual studio 2010\Projects\BioLogger\BioLogger\bin\Debug\BioLogger.pdb
-d:\documents\visual studio 2010\Projects\BioLogger\BioLogger\obj\x86\Debug\ResolveAssemblyReference.cache
-d:\documents\visual studio 2010\Projects\BioLogger\BioLogger\obj\x86\Debug\BioLogger.exe
-d:\documents\visual studio 2010\Projects\BioLogger\BioLogger\obj\x86\Debug\BioLogger.pdb
-D:\Documents\Current Coursework\AI\Keyboard-Biometrics---Intro-to-AI.git\trunk\BioLogger\BioLogger\obj\x86\Debug\BioLogger.exe
-D:\Documents\Current Coursework\AI\Keyboard-Biometrics---Intro-to-AI.git\trunk\BioLogger\BioLogger\obj\x86\Debug\BioLogger.pdb
