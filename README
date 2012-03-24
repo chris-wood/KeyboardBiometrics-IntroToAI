@@ -3,5 +3,7 @@ http://www.codeproject.com/Articles/7294/Processing-Global-Mouse-and-Keyboard-Ho
 
 Note: This code requires a login (free signup)
 
-Potential key hooking here:
-http://thedarkjoker94.cer33.com/?p=111
+Usage: GlobalHookDemo [FILEPATH]
+
+Where FILEPATH is the desired location to save the log file.
+If no file is specified, then "log" will be saved in the same directory as the .exe
