@@ -2,10 +2,7 @@
 using System.Threading;
 using System.IO;
 using System.Reflection;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Linq;
-using System.Text;
 
 namespace KeyCollector
 {
@@ -299,25 +296,45 @@ namespace KeyCollector
         /// </summary>
         private static HookProc KeyboardHookProcedure;
 
-        protected Thread _thrd;
-        protected string _logFileName;
-        protected TextWriter _logFileWriter;
+        /// <summary>
+        /// The name of the log file to save to
+        /// </summary>
+        private string _logFileName;
+        /// <summary>
+        /// Object to write to the log file
+        /// </summary>
+        private TextWriter _logFileWriter;
 
+        /// <summary>
+        /// Logger constructor. Sets the log file name and startst the logging thread
+        /// </summary>
+        /// <param name="logFileName">
+        /// The name of the file to log to
+        /// </param>
         public Logger(string logFileName)
         {
-            _logFileName = logFileName;
-            _thrd = new Thread(new ThreadStart(this.start)); 
-            _thrd.Name = "Logger"; 
-            _thrd.Start(); 
+            _logFileName = logFileName;                                 // set the log file
+            Thread thread = new Thread(new ThreadStart(this.start));    // create a new thread
+            thread.Start();                                             // start the logger
         }
 
+        /// <summary>
+        /// Closes the application message loop (which results in closing the logger
+        /// </summary>
         public void close()
         {
-            _thrd.Abort();
-            _thrd.Join();
+            // exit the message loop
+            System.Windows.Forms.Application.Exit();
+
+            //thread.Abort();
+            //thread.Join();
         }
 
-        protected void start()
+        /// <summary>
+        /// Creates the file logger, installs the hook, and starts logging.
+        /// When the logging loop exits, unhooks the keyboard, closes the log file
+        /// </summary>
+        private void start()
         {
             // open the logfile
             _logFileWriter = new StreamWriter(_logFileName);
@@ -335,7 +352,10 @@ namespace KeyCollector
             _logFileWriter.Close();
         }
 
-        protected void loop()
+        /// <summary>
+        /// Runs a loop to handle the windows message queue (allows the keylogger to recieve events)
+        /// </summary>
+        private void loop()
         {
             try
             {
@@ -346,7 +366,8 @@ namespace KeyCollector
             }
             catch (System.Threading.ThreadAbortException)
             {
-                // Exiting
+                // Thread exit requested
+                Console.WriteLine("[Logging thread abort requested]");
             }
             catch (Exception)
             {
@@ -356,15 +377,27 @@ namespace KeyCollector
             }
         }
 
-        protected void logEvent(int keyCode, string eventType)
+        /// <summary>
+        /// Writes an event to the log file (and console)
+        /// </summary>
+        /// <param name="keyCode">
+        /// The keycode for the key that triggered the event
+        /// </param>
+        /// <param name="eventType">
+        /// The event type: KEY_UP or KEY_DOWN
+        /// </param>
+        private void logEvent(int keyCode, string eventType)
         {
             string timeStamp = DateTime.Now.ToString("HH:mm:ss:ffff");
-            string logLine = string.Format("{0}, {1}, {2}", timeStamp, keyCode, eventType);
+            string logLine = string.Format("{0} {1} {2}", timeStamp, keyCode, eventType);
             _logFileWriter.WriteLine(logLine);
             Console.WriteLine(logLine);
         }
 
-        protected void hookKeyboard()
+        /// <summary>
+        /// Installed the global low level keyboard hook
+        /// </summary>
+        private void hookKeyboard()
         {
             // Create an instance of HookProc.
             KeyboardHookProcedure = new HookProc(KeyboardHookProc);
@@ -390,7 +423,10 @@ namespace KeyCollector
             }
         }
 
-        protected void unhookKeyboard()
+        /// <summary>
+        /// Removes the keyboard hook
+        /// </summary>
+        private void unhookKeyboard()
         {
             // unset the hook
             int retKeyboard = UnhookWindowsHookEx(hKeyboardHook);
@@ -413,21 +449,21 @@ namespace KeyCollector
         /// A callback function which will be called every time a keyboard activity detected.
         /// </summary>
         /// <param name="nCode">
-        /// [in] Specifies whether the hook procedure must process the message. 
+        /// Specifies whether the hook procedure must process the message. 
         /// If nCode is HC_ACTION, the hook procedure must process the message. 
         /// If nCode is less than zero, the hook procedure must pass the message to the 
         /// CallNextHookEx function without further processing and must return the 
         /// value returned by CallNextHookEx.
         /// </param>
         /// <param name="wParam">
-        /// [in] Specifies whether the message was sent by the current thread. 
+        /// Specifies whether the message was sent by the current thread. 
         /// If the message was sent by the current thread, it is nonzero; otherwise, it is zero. 
         /// </param>
         /// <param name="lParam">
-        /// [in] Pointer to a CWPSTRUCT structure that contains details about the message. 
+        /// Pointer to a CWPSTRUCT structure that contains details about the message. 
         /// </param>
         /// <returns>
-        /// returns the result of calling CallNextHookEx (to pass the event to the next hook in the chain)
+        /// Returns the result of calling CallNextHookEx (to pass the event to the next hook in the chain)
         /// </returns>
         ///
         private int KeyboardHookProc(int nCode, Int32 wParam, IntPtr lParam)

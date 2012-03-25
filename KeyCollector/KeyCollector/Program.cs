@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace KeyCollector
 {
@@ -9,8 +6,17 @@ namespace KeyCollector
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("[Starting logger thread]");
-            Logger logger = new Logger("keylog.txt");
+            string logFileName = "";
+            if (args.Length > 0) {
+                logFileName = args[0];
+            }
+            else {
+                string dateString = DateTime.Now.ToString("MM-dd-yy_HH-mm-ss");
+                logFileName = string.Format("keylog_{0}.txt", dateString);
+            }
+
+            Console.WriteLine("[Starting logger to: {0}]", logFileName);
+            Logger logger = new Logger(logFileName);
 
             // loop until exit is requested
             Console.WriteLine("Press [esc] to exit");
