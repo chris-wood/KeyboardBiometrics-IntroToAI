@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <RichTextBox HorizontalAlignment="Stretch" Name="testTextBox" VerticalAlignment="Stretch" Width="300" IsReadOnly="True" Margin="0,0,0,41">
+        <RichTextBox HorizontalAlignment="Stretch" Name="testTextBox" VerticalAlignment="Stretch" Width="Auto" IsReadOnly="True" Margin="0,0,0,41">
             <RichTextBox.Document>
                 <FlowDocument>
                     <Paragraph Name="PWrapper">
