@@ -200,7 +200,7 @@ namespace KeyCollectorGUI
         /// <remarks>
         /// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/userinput/keyboardinput/keyboardinputreference/keyboardinputfunctions/toascii.asp
         /// </remarks>
-        [DllImport("user32")]
+        [DllImport("user32.dll")]
         private static extern int ToAscii(
             int uVirtKey,
             int uScanCode,
@@ -222,11 +222,14 @@ namespace KeyCollectorGUI
         /// <remarks>
         /// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/userinput/keyboardinput/keyboardinputreference/keyboardinputfunctions/toascii.asp
         /// </remarks>
-        [DllImport("user32")]
+        [DllImport("user32.dll")]
         private static extern int GetKeyboardState(byte[] pbKeyState);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         private static extern short GetKeyState(int vKey);
+
+        [DllImport("Kernel32.dll", EntryPoint = "GetCurrentThreadId")]
+        public static extern Int32 GetCurrentWin32ThreadId();
 
         #endregion
 
@@ -345,7 +348,7 @@ namespace KeyCollectorGUI
             string timeStamp = (DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond).ToString(); // ToString("HH:mm:ss:ffff");
             string logLine = string.Format("{0} {1} {2}", timeStamp, keyCode, eventType);
             _logFileWriter.WriteLine(logLine);
-            Console.WriteLine(logLine);
+            //Console.WriteLine(logLine);
         }
 
         /// <summary>
@@ -362,8 +365,8 @@ namespace KeyCollectorGUI
                 KeyboardHookProcedure,
                 Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().GetModules()[0]),
                 0);
-                //IntPtr.Zero,// Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().GetModules()[0]),
-                //Thread.CurrentThread.ManagedThreadId); // 0
+                //IntPtr.Zero,
+                //GetCurrentWin32ThreadId());
 
             // check if hook was set properly
             if (hKeyboardHook == 0)
