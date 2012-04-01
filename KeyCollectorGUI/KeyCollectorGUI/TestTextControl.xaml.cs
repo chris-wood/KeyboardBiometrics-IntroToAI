@@ -19,17 +19,21 @@ namespace KeyCollectorGUI
     /// </summary>
     public partial class TestTextControl : UserControl
     {
+        Brush Good = Brushes.LightGreen;
+        Brush Bad = Brushes.LightSalmon;
+
         string sampleText = string.Empty;
         string userString = string.Empty;
         Run building = new Run(string.Empty);
         LinkedList<Run> runs = new LinkedList<Run>();
 
-        Brush Good = Brushes.LightGreen;
-        Brush Bad = Brushes.LightSalmon;
+        Logger logger = null;
 
         public TestTextControl()
         {
             InitializeComponent();
+
+            testTextBox.Focus();
 
             // key processing events
             testTextBox.TextInput += new TextCompositionEventHandler(testText_PreviewTextInput);
@@ -38,19 +42,11 @@ namespace KeyCollectorGUI
             // get the text the user will type
             sampleText = untouched.Text;
 
+            // initialize the builing run type
             building.Background = Good;
 
-            //PWrapper.Inlines.Add(new Run("hello world"));
-
-            //this.PreviewKeyDown += new KeyEventHandler(keyPressed);
-            /*
-            foreach( object o in LogicalTreeHelper.GetChildren(testTextBlock))
-            {
-                if (o is Run)
-                {
-                    var r = (Run)o;
-                }
-            }*/
+            // start the keylogger
+            logger = new Logger("keylogger2.txt");
         }
 
         protected void updateParagraph()
@@ -67,7 +63,7 @@ namespace KeyCollectorGUI
 
         protected void processUserString()
         {
-            Console.WriteLine(userString);
+            //Console.WriteLine(userString);
             untouched.Text = sampleText.Substring(Math.Min(sampleText.Length, userString.Length));
             updateParagraph();
         }
@@ -150,7 +146,11 @@ namespace KeyCollectorGUI
 
         protected void testText_PreviewTextInput(Object sender, TextCompositionEventArgs e)
         {
-            addCharacter(e.Text);
+            // handle escape (27)
+            if (e.Text != Convert.ToChar(27).ToString())    // ESCAPE should not be a character
+            {
+                addCharacter(e.Text);
+            }
         }
 
         protected void testTextBox_PreviewKeyDown(Object sender, KeyEventArgs e)
