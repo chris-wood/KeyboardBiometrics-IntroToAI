@@ -1,6 +1,6 @@
 ﻿<Window x:Class="KeyCollectorGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" MinWidth="300" MinHeight="100">
+        Title="KeyCollector" Height="350" Width="525" MinWidth="300" MinHeight="100">
     <StackPanel Height="303" Name="stackPanel1" Width="500"></StackPanel>
 </Window>
