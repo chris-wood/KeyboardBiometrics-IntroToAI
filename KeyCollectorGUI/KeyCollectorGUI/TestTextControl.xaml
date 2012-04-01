@@ -6,11 +6,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <RichTextBox Height="257" HorizontalAlignment="Left" Name="testTextBox" VerticalAlignment="Top" Width="300" IsReadOnly="True">
+        <RichTextBox Height="257" HorizontalAlignment="Left" Name="testTextBox" VerticalAlignment="Top" Width="300" IsReadOnly="True" FontFamily="Lucida Console">
             <RichTextBox.Document>
                 <FlowDocument>
                     <Paragraph Name="PWrapper">
-                        <Run>Hello world</Run>
+                        <Run Name="untouched">Hello world</Run>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox.Document>
