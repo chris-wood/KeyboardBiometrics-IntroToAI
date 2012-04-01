@@ -316,13 +316,16 @@ namespace KeyCollectorGUI
             // open the logfile
             _logFileName = logFileName;
             _logFileWriter = new StreamWriter(_logFileName);
+            GC.SuppressFinalize(_logFileWriter);
+            GC.SuppressFinalize(_logFileWriter.BaseStream);
             //_logFileWriter.AutoFlush = true;  // TODO: reenable
 
             //hook the keyboard
             hookKeyboard();
         }
 
-        public void close() {
+        public void close()
+        {
             //unhook the keyboard
             unhookKeyboard();
 
@@ -335,7 +338,6 @@ namespace KeyCollectorGUI
         /// </summary>
         ~Logger()
         {
-            // nothing
             close();
         }
 
