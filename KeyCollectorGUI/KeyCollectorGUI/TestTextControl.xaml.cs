@@ -85,12 +85,29 @@ namespace KeyCollectorGUI
         protected void addCharacter(string c)
         {
             userString += c;
+            Brush runType = null;
 
             if (userString.Length > sampleText.Length)
             {
-                // BAD
                 c = " ";
-                if (building.Background == Bad)
+                runType = Bad;
+            }
+            else
+            {
+                c = sampleText[userString.Length - 1].ToString();
+                if (userString[userString.Length - 1] == sampleText[userString.Length - 1])
+                {
+                    runType = Good;
+                }
+                else
+                {
+                    runType = Bad;
+                }
+            }
+
+            if (runType != null)
+            {
+                if (building.Background == runType)
                 {
                     building.Text += c;
                 }
@@ -98,39 +115,7 @@ namespace KeyCollectorGUI
                 {
                     runs.AddLast(building);
                     building = new Run(c);
-                    building.Background = Bad;
-                }
-            }
-            else
-            {
-                c = "" + sampleText[userString.Length - 1];
-                if (userString[userString.Length - 1] == sampleText[userString.Length - 1])
-                {
-                    // GOOD
-                    if (building.Background == Good)
-                    {
-                        building.Text += c;
-                    }
-                    else
-                    {
-                        runs.AddLast(building);
-                        building = new Run(c);
-                        building.Background = Good;
-                    }
-                }
-                else
-                {
-                    // BAD
-                    if (building.Background == Bad)
-                    {
-                        building.Text += c;
-                    }
-                    else
-                    {
-                        runs.AddLast(building);
-                        building = new Run(c);
-                        building.Background = Bad;
-                    }
+                    building.Background = runType;
                 }
             }
 
