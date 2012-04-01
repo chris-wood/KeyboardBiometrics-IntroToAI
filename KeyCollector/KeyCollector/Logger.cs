@@ -388,7 +388,7 @@ namespace KeyCollector
         /// </param>
         private void logEvent(int keyCode, string eventType)
         {
-            string timeStamp = DateTime.Now.ToString("HH:mm:ss:ffff");
+            string timeStamp = (DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond).ToString(); // ToString("HH:mm:ss:ffff");
             string logLine = string.Format("{0} {1} {2}", timeStamp, keyCode, eventType);
             _logFileWriter.WriteLine(logLine);
             Console.WriteLine(logLine);
