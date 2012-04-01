@@ -46,7 +46,21 @@ namespace KeyCollectorGUI
             building.Background = Good;
 
             // start the keylogger
-            logger = new Logger("keylogger2.txt");
+            logger = new Logger("keylogger.txt");
+
+            // make sure the log gets written on exit
+            Application.Current.MainWindow.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
+        }
+
+        ~TestTextControl()
+        {
+            // remove the exit event handler
+            if (logger != null)
+            {
+                logger.close();
+                logger = null;
+            }
+            //Application.Current.MainWindow.Closing -= new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
         }
 
         protected void updateParagraph()
@@ -167,6 +181,20 @@ namespace KeyCollectorGUI
                     deleteCharacter();
                     break;
             }
+        }
+
+        protected void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (logger != null)
+            {
+                logger.close();
+                logger = null;
+            }
+        }
+
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
         }
     }
 }

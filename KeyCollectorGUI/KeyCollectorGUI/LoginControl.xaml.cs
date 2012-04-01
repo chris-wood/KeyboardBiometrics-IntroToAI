@@ -28,7 +28,7 @@ namespace KeyCollectorGUI
 
         private void gobutton_Click(object sender, RoutedEventArgs e)
         {
-            this.windowParent.Content = new TestTextControl();
+            Application.Current.MainWindow.Content = new TestTextControl();
         }
     }
 }

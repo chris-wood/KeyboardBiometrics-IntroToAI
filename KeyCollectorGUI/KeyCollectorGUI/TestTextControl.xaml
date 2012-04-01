@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <RichTextBox Height="257" HorizontalAlignment="Left" Name="testTextBox" VerticalAlignment="Top" Width="300" IsReadOnly="True" FontFamily="Lucida Console">
+        <RichTextBox HorizontalAlignment="Stretch" Name="testTextBox" VerticalAlignment="Stretch" Width="300" IsReadOnly="True" Margin="0,0,0,41">
             <RichTextBox.Document>
                 <FlowDocument>
                     <Paragraph Name="PWrapper">
@@ -15,5 +15,6 @@
                 </FlowDocument>
             </RichTextBox.Document>
         </RichTextBox>
+        <Button Content="Save/Exit" Height="23" HorizontalAlignment="Right" Margin="0,0,12,12" Name="exitButton" VerticalAlignment="Bottom" Width="75" Click="exitButton_Click" />
     </Grid>
 </UserControl>

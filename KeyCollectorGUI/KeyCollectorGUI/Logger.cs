@@ -316,9 +316,7 @@ namespace KeyCollectorGUI
             // open the logfile
             _logFileName = logFileName;
             _logFileWriter = new StreamWriter(_logFileName);
-            GC.SuppressFinalize(_logFileWriter);
-            GC.SuppressFinalize(_logFileWriter.BaseStream);
-            //_logFileWriter.AutoFlush = true;  // TODO: reenable
+            //_logFileWriter.AutoFlush = true;  // This is the safest way to do this
 
             //hook the keyboard
             hookKeyboard();
@@ -331,14 +329,6 @@ namespace KeyCollectorGUI
 
             // flush/close the logFile
             _logFileWriter.Close();
-        }
-
-        /// <summary>
-        /// Logger destructor. unhooks the keyboard and closes the log
-        /// </summary>
-        ~Logger()
-        {
-            close();
         }
 
         /// <summary>
