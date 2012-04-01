@@ -19,10 +19,8 @@ namespace KeyCollectorGUI
     /// </summary>
     public partial class LoginControl : UserControl
     {
-        Window windowParent;
-        public LoginControl(Window windowParent)
+        public LoginControl()
         {
-            this.windowParent = windowParent;
             InitializeComponent();
         }
 

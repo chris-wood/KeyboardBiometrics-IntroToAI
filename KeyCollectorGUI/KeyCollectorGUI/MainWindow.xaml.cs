@@ -22,7 +22,7 @@ namespace KeyCollectorGUI
         public MainWindow()
         {
             InitializeComponent();
-            this.Content = new LoginControl(this);
+            this.Content = new LoginControl();
         }
     }
 }
