@@ -15,14 +15,20 @@ using System.Windows.Shapes;
 namespace KeyCollectorGUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginControl : UserControl
     {
-        public MainWindow()
+        Window windowParent;
+        public LoginControl(Window windowParent)
         {
+            this.windowParent = windowParent;
             InitializeComponent();
-            this.Content = new LoginControl(this);
+        }
+
+        private void gobutton_Click(object sender, RoutedEventArgs e)
+        {
+            this.windowParent.Content = new TestTextControl();
         }
     }
 }
