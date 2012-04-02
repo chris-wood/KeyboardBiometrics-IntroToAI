@@ -10,7 +10,9 @@
             <RichTextBox.Document>
                 <FlowDocument>
                     <Paragraph Name="PWrapper">
-                        <Run Name="untouched">Hello world</Run>
+                        <Run Name="untouched">
+                            The five boxing wizards jump quickly. See the quick brown fox jump over the lazy dog. A mad boxer shot a quick, gloved jab to the jaw of his dizzy opponent. We promptly judged antique ivory buckles for the next prize. A quart jar of oil mixed with zinc oxide makes a very bright paint. The job requires extra pluck and zeal from every young wage earner. About sixty codfish eggs will make a quarter pound of very fizzy jelly. All questions asked by five watch experts amazed the judge. Big July earthquakes confound zany experimental vow. I have quickly spotted the four women dozing in the jury box.
+                        </Run>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox.Document>
