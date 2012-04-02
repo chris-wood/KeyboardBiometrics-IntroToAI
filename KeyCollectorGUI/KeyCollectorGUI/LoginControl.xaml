@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="250" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center">
-    <Grid Width="250" Height="75">
-        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,12,12,0" Name="username" VerticalAlignment="Top" Width="157" />
+    <Grid Width="250" Height="75" FocusManager.FocusedElement="{Binding ElementName=username}">
+        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,12,12,0" Name="username" VerticalAlignment="Top" Width="157" KeyDown="username_KeyDown" />
         <Label Content="Username" Height="28" HorizontalAlignment="Left" Margin="12,10,0,0" Name="label1" VerticalAlignment="Top" Width="63" />
         <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="163,41,0,0" Name="gobutton" VerticalAlignment="Top" Width="75" Click="gobutton_Click" />
     </Grid>

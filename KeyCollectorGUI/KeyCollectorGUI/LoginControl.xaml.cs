@@ -24,9 +24,21 @@ namespace KeyCollectorGUI
             InitializeComponent();
         }
 
+        private void submit() {
+            Application.Current.MainWindow.Content = new TestTextControl(username.Text);
+        }
+
         private void gobutton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new TestTextControl(username.Text);
+            submit();
+        }
+
+        private void username_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                submit();
+            }
         }
     }
 }
