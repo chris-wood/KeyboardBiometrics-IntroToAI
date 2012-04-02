@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <RichTextBox HorizontalAlignment="Stretch" Name="testTextBox" VerticalAlignment="Stretch" Width="Auto" IsReadOnly="True" Margin="0,0,0,41" VerticalScrollBarVisibility="Auto">
+        <RichTextBox HorizontalAlignment="Stretch" Name="testTextBox" VerticalAlignment="Stretch" Width="Auto" IsReadOnly="True" Margin="0,65,0,41" VerticalScrollBarVisibility="Auto">
             <RichTextBox.Document>
                 <FlowDocument>
                     <Paragraph Name="PWrapper">
@@ -16,5 +16,7 @@
             </RichTextBox.Document>
         </RichTextBox>
         <Button Content="Save/Exit" Height="23" HorizontalAlignment="Right" Margin="0,0,12,12" Name="exitButton" VerticalAlignment="Bottom" Width="75" Click="exitButton_Click" />
+        <TextBlock Height="59" HorizontalAlignment="Stretch" Name="textBlock1" Text="Type the text shown below at a natural pace. Each correct letter will be highlighted in green. Each incorrect letter will be highlighted in red. You are free to use backspace to correct mistakes as they occur." VerticalAlignment="Top" Width="Auto" TextWrapping="WrapWithOverflow" Margin="0" Padding="5" />
+        <Button Content="Reset" Height="23" HorizontalAlignment="Right" Margin="0,0,93,12" Name="resetButton" VerticalAlignment="Bottom" Width="75" Click="resetButton_Click" />
     </Grid>
 </UserControl>

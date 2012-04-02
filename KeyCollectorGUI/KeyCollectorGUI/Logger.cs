@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading;
 using System.IO;
+using System.Threading;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -299,14 +299,11 @@ namespace KeyCollectorGUI
         /// </summary>
         private static HookProc KeyboardHookProcedure;
 
+        private StringWriter _log = null;
         /// <summary>
-        /// The name of the log file to save to
+        /// Gets the contents of the log
         /// </summary>
-        private string _logFileName = string.Empty;
-        /// <summary>
-        /// Object to write to the log file
-        /// </summary>
-        private StreamWriter _logFileWriter = null;
+        public string Log{ get { return _log.ToString(); } }
 
         /// <summary>
         /// Logger constructor. Sets the log file name and startst the logging thread
@@ -314,24 +311,30 @@ namespace KeyCollectorGUI
         /// <param name="logFileName">
         /// The name of the file to log to
         /// </param>
-        public Logger(string logFileName)
+        public Logger()
         {
-            // open the logfile
-            _logFileName = logFileName;
-            _logFileWriter = new StreamWriter(_logFileName);
-            //_logFileWriter.AutoFlush = true;  // This is the safest way to do this
-
             //hook the keyboard
             hookKeyboard();
+
+            // initialize the log
+            reset();
         }
 
-        public void close()
+        /// <summary>
+        /// Clears the log
+        /// </summary>
+        public void reset()
+        {
+            _log = new StringWriter();
+        }
+
+        /// <summary>
+        /// Unhooks the keyboard effectively stopping the logger
+        /// </summary>
+        public void stop()
         {
             //unhook the keyboard
             unhookKeyboard();
-
-            // flush/close the logFile
-            _logFileWriter.Close();
         }
 
         /// <summary>
@@ -347,7 +350,7 @@ namespace KeyCollectorGUI
         {
             string timeStamp = (DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond).ToString(); // ToString("HH:mm:ss:ffff");
             string logLine = string.Format("{0} {1} {2}", timeStamp, keyCode, eventType);
-            _logFileWriter.WriteLine(logLine);
+            _log.WriteLine(logLine);
             //Console.WriteLine(logLine);
         }
 

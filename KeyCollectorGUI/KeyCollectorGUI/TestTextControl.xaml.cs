@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,13 @@ namespace KeyCollectorGUI
     /// </summary>
     public partial class TestTextControl : UserControl
     {
-        Brush Good = Brushes.LightGreen;
-        Brush Bad = Brushes.LightSalmon;
+        static Brush Good = Brushes.LightGreen;
+        static Brush Bad = Brushes.LightSalmon;
 
-        string sampleText = string.Empty;
-        string userString = string.Empty;
-        Run building = new Run(string.Empty);
-        LinkedList<Run> runs = new LinkedList<Run>();
+        string sampleText = null;
+        string userString = null;
+        Run building = null;
+        LinkedList<Run> runs = null;
 
         Logger logger = null;
 
@@ -42,13 +43,13 @@ namespace KeyCollectorGUI
             // get the text the user will type
             sampleText = untouched.Text;
 
-            // initialize the builing run type
-            building.Background = Good;
-
             // start the keylogger
-            logger = new Logger("keylogger.txt");
+            logger = new Logger();
 
-            // make sure the log gets written on exit
+            // initialize the highlight state
+            reset();
+
+            // catch the exit event
             Application.Current.MainWindow.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
         }
 
@@ -57,14 +58,33 @@ namespace KeyCollectorGUI
             // remove the exit event handler
             if (logger != null)
             {
-                logger.close();
+                logger.stop();
                 logger = null;
             }
             //Application.Current.MainWindow.Closing -= new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
         }
 
+        protected void reset()
+        {
+            // initialize the list of runs and the building run
+            runs = new LinkedList<Run>();
+            building = new Run(string.Empty);
+            building.Background = Good;
+
+            // initialize the userString
+            userString = string.Empty;
+
+            // clear the log
+            logger.reset();
+
+            // reflect the changes in the view
+            updateParagraph();
+        }
+
         protected void updateParagraph()
         {
+            untouched.Text = sampleText.Substring(Math.Min(sampleText.Length, userString.Length));
+
             PWrapper.Inlines.Clear();
 
             foreach (Run r in runs)
@@ -73,13 +93,6 @@ namespace KeyCollectorGUI
             }
             PWrapper.Inlines.Add(building);
             PWrapper.Inlines.Add(untouched);
-        }
-
-        protected void processUserString()
-        {
-            //Console.WriteLine(userString);
-            untouched.Text = sampleText.Substring(Math.Min(sampleText.Length, userString.Length));
-            updateParagraph();
         }
 
         protected void addCharacter(string c)
@@ -119,7 +132,7 @@ namespace KeyCollectorGUI
                 }
             }
 
-            processUserString();
+            updateParagraph();
         }
 
         protected void deleteCharacter()
@@ -139,13 +152,12 @@ namespace KeyCollectorGUI
                     building.Text = building.Text.Substring(0, building.Text.Length - 1);
                 }
 
-                processUserString();
+                updateParagraph();
             }
         }
 
         protected void testText_PreviewTextInput(Object sender, TextCompositionEventArgs e)
         {
-            // handle escape (27)
             if (e.Text != Convert.ToChar(27).ToString())    // ESCAPE should not be a character
             {
                 addCharacter(e.Text);
@@ -172,14 +184,26 @@ namespace KeyCollectorGUI
         {
             if (logger != null)
             {
-                logger.close();
+                logger.stop();
                 logger = null;
             }
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: use a save dialog instead
+            using(StreamWriter logWriter = new StreamWriter("Keylog.log"))
+            {
+                logWriter.Write(logger.Log);
+            }
+
             Application.Current.MainWindow.Close();
+        }
+
+        private void resetButton_Click(object sender, RoutedEventArgs e)
+        {
+            reset();
+            testTextBox.Focus();
         }
     }
 }
