@@ -146,7 +146,10 @@ namespace KeyCollectorGUI
                 }
                 else
                 {
-                    runs.AddLast(building);
+                    if (building.Text.Length > 0)   // never add empty runs
+                    {
+                        runs.AddLast(building);
+                    }
                     building = new Run(c);
                     building.Background = runType;
                 }
