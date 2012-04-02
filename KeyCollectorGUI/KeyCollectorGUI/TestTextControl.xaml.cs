@@ -100,6 +100,19 @@ namespace KeyCollectorGUI
             }
             PWrapper.Inlines.Add(building);
             PWrapper.Inlines.Add(untouched);
+
+            // Adjust the caret position to make the text scroll auto-magically
+            System.Windows.Documents.TextPointer docStart = testTextBox.Document.ContentStart;
+            System.Windows.Documents.TextPointer docEnd = testTextBox.Document.ContentEnd;
+            int trueLength = docStart.GetOffsetToPosition(docEnd);
+            int userStringEndOffset = trueLength - (sampleText.Length - userString.Length) - 2;
+            System.Windows.Documents.TextPointer tp = testTextBox.Document.ContentStart;
+            tp = tp.GetPositionAtOffset(userStringEndOffset + 10);  // look ahead 10 characters
+            if (tp == null)
+            {
+                tp = docEnd;
+            }
+            testTextBox.Selection.Select(tp, tp);
         }
 
         protected void addCharacter(string c)
