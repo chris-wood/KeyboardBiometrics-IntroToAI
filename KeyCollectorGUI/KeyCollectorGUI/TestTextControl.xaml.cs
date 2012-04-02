@@ -189,15 +189,40 @@ namespace KeyCollectorGUI
             }
         }
 
+        private bool log_saveas()
+        {
+            // configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Keylog";    // default file name
+            dlg.DefaultExt = ".log";    // default file extension
+            dlg.Filter = "Log files|*.log|Text Documents|*.txt|All Files|*.*";  // file selection filters
+
+            // show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // process save file dialog box results
+            if (result == true)
+            {
+                // save the log
+                using (StreamWriter logWriter = new StreamWriter(dlg.FileName))
+                {
+                    logWriter.Write(logger.Log);
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: use a save dialog instead
-            using(StreamWriter logWriter = new StreamWriter("Keylog.log"))
+            if (log_saveas())
             {
-                logWriter.Write(logger.Log);
+                Application.Current.MainWindow.Close();
             }
-
-            Application.Current.MainWindow.Close();
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
