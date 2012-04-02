@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,11 +31,14 @@ namespace KeyCollectorGUI
 
         Logger logger = null;
 
-        public TestTextControl()
+        string userName = null;
+
+        public TestTextControl(string userName = "")
         {
             InitializeComponent();
 
-            testTextBox.Focus();
+            // store the username
+            this.userName = userName;
 
             // key processing events
             testTextBox.TextInput += new TextCompositionEventHandler(testText_PreviewTextInput);
@@ -51,6 +55,9 @@ namespace KeyCollectorGUI
 
             // catch the exit event
             Application.Current.MainWindow.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
+            
+            // set focus to the text entry box
+            testTextBox.Focus();
         }
 
         ~TestTextControl()
@@ -191,9 +198,16 @@ namespace KeyCollectorGUI
 
         private bool log_saveas()
         {
+            // generate a proposed filename by stripping any invalid characters from the 
+            // user name and adding a timestamp
+            string regexSearch = new string(System.IO.Path.GetInvalidFileNameChars()) + new string(System.IO.Path.GetInvalidPathChars());
+            Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            string proposed = r.Replace(userName, "");
+            proposed += "-" + DateTime.Now.ToString("MM-dd-yy_HH-mm-ss");
+
             // configure save file dialog box
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Keylog";    // default file name
+            dlg.FileName = proposed;    // default file name
             dlg.DefaultExt = ".log";    // default file extension
             dlg.Filter = "Log files|*.log|Text Documents|*.txt|All Files|*.*";  // file selection filters
 
