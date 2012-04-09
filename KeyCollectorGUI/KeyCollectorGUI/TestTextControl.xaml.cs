@@ -289,12 +289,6 @@ namespace KeyCollectorGUI
             }
             reset();
             testTextBox.Focus();
-
-            for (int i = 0; i < sampleText.Length; i++)
-            {
-                Console.Write((int)sampleText[i]);
-                Console.Write(" ");
-            }
         }
     }
 }
