@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,6 +26,8 @@ namespace KeyCollectorGUI
         static Brush Bad = Brushes.LightSalmon;
 
         string sampleText = null;
+        string defaultSample = "The five boxing wizards jump quickly. See the quick brown fox jump over the lazy dog. A mad boxer shot a quick, gloved jab to the jaw of his dizzy opponent. We promptly judged antique ivory buckles for the next prize. A quart jar of oil mixed with zinc oxide makes a very bright paint. The job requires extra pluck and zeal from every young wage earner. About sixty codfish eggs will make a quarter pound of very fizzy jelly. All questions asked by five watch experts amazed the judge. Big July earthquakes confound zany experimental vow. I have quickly spotted the four women dozing in the jury box.";
+
         string userString = null;
         Run building = null;
         LinkedList<Run> runs = null;
@@ -35,6 +38,9 @@ namespace KeyCollectorGUI
 
         public TestTextControl(string userName = "")
         {
+            // get the text the user will type
+            sampleText = defaultSample; 
+
             InitializeComponent();
 
             // store the username
@@ -44,20 +50,18 @@ namespace KeyCollectorGUI
             testTextBox.TextInput += new TextCompositionEventHandler(testText_PreviewTextInput);
             testTextBox.PreviewKeyDown += new KeyEventHandler(testTextBox_PreviewKeyDown);
 
-            // get the text the user will type
-            sampleText = untouched.Text;
-
             // start the keylogger
             logger = new Logger();
 
             // initialize the highlight state
             reset();
 
-            // catch the exit event
+            // ca()tch the exit event
             Application.Current.MainWindow.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
-            
+
             // set focus to the text entry box
             testTextBox.Focus();
+            
         }
 
         ~TestTextControl()
@@ -146,7 +150,10 @@ namespace KeyCollectorGUI
                 }
                 else
                 {
-                    runs.AddLast(building);
+                    if (building.Text.Length > 0)   // never add empty runs
+                    {
+                        runs.AddLast(building);
+                    }
                     building = new Run(c);
                     building.Background = runType;
                 }
@@ -257,5 +264,21 @@ namespace KeyCollectorGUI
             reset();
             testTextBox.Focus();
         }
+
+        private void loadButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dial = new Microsoft.Win32.OpenFileDialog();
+            Nullable<bool> open = dial.ShowDialog();
+            if (open == true)
+            {
+                string filename = dial.FileName;
+                StreamReader sr = new StreamReader(filename);
+                sampleText = sr.ReadToEnd();
+                sr.Close();
+            }
+            reset();
+            testTextBox.Focus();
+        }
+
     }
 }
