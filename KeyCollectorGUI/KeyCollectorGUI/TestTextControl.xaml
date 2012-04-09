@@ -10,13 +10,12 @@
             <RichTextBox.Document>
                 <FlowDocument>
                     <Paragraph Name="PWrapper">
-                        <Run Name="untouched">
-                            The five boxing wizards jump quickly. See the quick brown fox jump over the lazy dog. A mad boxer shot a quick, gloved jab to the jaw of his dizzy opponent. We promptly judged antique ivory buckles for the next prize. A quart jar of oil mixed with zinc oxide makes a very bright paint. The job requires extra pluck and zeal from every young wage earner. About sixty codfish eggs will make a quarter pound of very fizzy jelly. All questions asked by five watch experts amazed the judge. Big July earthquakes confound zany experimental vow. I have quickly spotted the four women dozing in the jury box.
-                        </Run>
+                        <Run Name="untouched"/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox.Document>
         </RichTextBox>
+        <Button Content="Load Text" Height="23" HorizontalAlignment="Right" Margin="0,0,174,12" Name="loadButton" VerticalAlignment="Bottom" Width="75" Click="loadButton_Click" />
         <Button Content="Save/Exit" Height="23" HorizontalAlignment="Right" Margin="0,0,12,12" Name="exitButton" VerticalAlignment="Bottom" Width="75" Click="exitButton_Click" />
         <TextBlock Height="59" HorizontalAlignment="Stretch" Name="textBlock1" Text="Type the text shown below at a natural pace. Each correct letter will be highlighted in green. Each incorrect letter will be highlighted in red. You are free to use backspace to correct mistakes as they occur." VerticalAlignment="Top" Width="Auto" TextWrapping="WrapWithOverflow" Margin="0" Padding="5" />
         <Button Content="Reset" Height="23" HorizontalAlignment="Right" Margin="0,0,93,12" Name="resetButton" VerticalAlignment="Bottom" Width="75" Click="resetButton_Click" />
