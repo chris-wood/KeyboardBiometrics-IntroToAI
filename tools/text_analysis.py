@@ -125,7 +125,7 @@ print "Done"
 
 
 print "========Common Digraphs========"
-if show_di:
+if show_di or show_all:
     print_dict_sorted(common_digraph_freq, zero_only, filter_zero, show_coverage)
 
 print "========Common Trigraphs========"
@@ -133,7 +133,7 @@ if show_tri:
     print_dict_sorted(common_trigraph_freq, zero_only, filter_zero, show_coverage)
 
 print "========Common Doubles========"
-if show_doub or show_all:
+if show_doub:
     print_dict_sorted(double_freq, zero_only, filter_zero, show_coverage)
 
 print "========All Digraphs========"
