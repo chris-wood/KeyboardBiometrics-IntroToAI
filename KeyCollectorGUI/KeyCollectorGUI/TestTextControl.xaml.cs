@@ -77,6 +77,9 @@ namespace KeyCollectorGUI
 
         protected void reset()
         {
+            // cleanup the sample text to remove carriage returns
+            sampleText = sampleText.Replace("\r", "");
+
             // initialize the list of runs and the building run
             runs = new LinkedList<Run>();
             building = new Run(string.Empty);
@@ -187,7 +190,15 @@ namespace KeyCollectorGUI
         {
             if (e.Text != Convert.ToChar(27).ToString())    // ESCAPE should not be a character
             {
-                addCharacter(e.Text);
+                if (e.Text == "\r")
+                {
+                    // translate carriage returns (enter key) to newlines
+                    addCharacter("\n");
+                }
+                else
+                {
+                    addCharacter(e.Text);
+                }
             }
         }
 
@@ -278,7 +289,12 @@ namespace KeyCollectorGUI
             }
             reset();
             testTextBox.Focus();
-        }
 
+            for (int i = 0; i < sampleText.Length; i++)
+            {
+                Console.Write((int)sampleText[i]);
+                Console.Write(" ");
+            }
+        }
     }
 }
