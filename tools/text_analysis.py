@@ -24,11 +24,12 @@ Usage: text_analysis [-[options]] filename [flags]
 or more information: text_analysis --help\
 ''')
 
-if sys.argv[1] == '--help':
+if '--help' in sys.argv:
     print '''\
 Usage: text_analysis [-[options]] filename [flags]
 options
-    d - show digraphs
+    d - show common digraphs
+    a - show all digraphs
     t - show trigraphs
     r - show doubles
 
@@ -43,10 +44,25 @@ flags:
 
     sys.exit()
 
-options = sys.argv[2:]
-filter_zero = '--filter-zero' in options
-zero_only = '--zero-only' in options
-show_coverage = '--show-coverage' in options
+options = []
+flags = []
+filename = ''
+
+if sys.argv[1][0] == '-':
+    options = sys.argv[1]
+    filename = sys.argv[2]
+    flags = sys.argv[3:]
+else:
+    filename = sys.argv[1]
+    flags = sys.argv[2:]
+
+show_di = 'd' in options
+show_tri = 't' in options
+show_doub = 'r' in options
+show_all = 'a' in options
+filter_zero = '--filter-zero' in flags
+zero_only = '--zero-only' in flags
+show_coverage = '--show-coverage' in flags
 
 if filter_zero and zero_only:
     sys.exit("Error: conflicting flags")
@@ -54,7 +70,7 @@ if filter_zero and zero_only:
 s = ''
 s_upper = ''
 try:
-    s = file(sys.argv[1]).read()
+    s = file(filename).read()
     s_upper = s.upper()
 except IOError:
     sys.exit("Error: Invalid file name")
@@ -109,14 +125,18 @@ print "Done"
 
 
 print "========Common Digraphs========"
-print_dict_sorted(common_digraph_freq, zero_only, filter_zero, show_coverage)
+if show_di:
+    print_dict_sorted(common_digraph_freq, zero_only, filter_zero, show_coverage)
 
 print "========Common Trigraphs========"
-print_dict_sorted(common_trigraph_freq, zero_only, filter_zero, show_coverage)
+if show_tri:
+    print_dict_sorted(common_trigraph_freq, zero_only, filter_zero, show_coverage)
 
 print "========Common Doubles========"
-print_dict_sorted(double_freq, zero_only, filter_zero, show_coverage)
+if show_doub or show_all:
+    print_dict_sorted(double_freq, zero_only, filter_zero, show_coverage)
 
 print "========All Digraphs========"
-print_dict_sorted(digraph_freq, zero_only, filter_zero, show_coverage)
+if show_all:
+    print_dict_sorted(digraph_freq, zero_only, filter_zero, show_coverage)
 
