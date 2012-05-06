@@ -56,7 +56,7 @@ def compare_feature_sets(a, b):
         
         feature_overlap += 1
         mean_diff = abs(stats_a.mean - stats_b.mean)
-        combined_count = max(stats_a.count, stats_b.count)
+        combined_count = stats_a.count + stats_b.count
         total += mean_diff*combined_count
     
     if feature_overlap > 0:
